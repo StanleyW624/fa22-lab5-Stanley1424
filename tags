@@ -1,0 +1,139 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CACHE_H_	cache.h	2;"	d
+CC	Makefile	/^CC=gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS=-c -Wall -I. -fpic -g -fbounds-check$/;"	m
+JBOD_ALREADY_MOUNTED	jbod.h	/^  JBOD_ALREADY_MOUNTED,$/;"	e	enum:__anon2
+JBOD_ALREADY_UNMOUNTED	jbod.h	/^  JBOD_ALREADY_UNMOUNTED,$/;"	e	enum:__anon2
+JBOD_BAD_BLOCK_NUM	jbod.h	/^  JBOD_BAD_BLOCK_NUM,$/;"	e	enum:__anon2
+JBOD_BAD_CMD	jbod.h	/^  JBOD_BAD_CMD,$/;"	e	enum:__anon2
+JBOD_BAD_DISK_NUM	jbod.h	/^  JBOD_BAD_DISK_NUM,$/;"	e	enum:__anon2
+JBOD_BAD_READ	jbod.h	/^  JBOD_BAD_READ,$/;"	e	enum:__anon2
+JBOD_BAD_WRITE	jbod.h	/^  JBOD_BAD_WRITE,$/;"	e	enum:__anon2
+JBOD_BLOCK_SIZE	jbod.h	8;"	d
+JBOD_CACHELOAD_FAIL	jbod.h	/^  JBOD_CACHELOAD_FAIL,$/;"	e	enum:__anon2
+JBOD_CACHEWRITE_FAIL	jbod.h	/^  JBOD_CACHEWRITE_FAIL,$/;"	e	enum:__anon2
+JBOD_DISK_SIZE	jbod.h	7;"	d
+JBOD_H_	jbod.h	2;"	d
+JBOD_MOUNT	jbod.h	/^  JBOD_MOUNT,$/;"	e	enum:__anon1
+JBOD_NO_ERROR	jbod.h	/^  JBOD_NO_ERROR,$/;"	e	enum:__anon2
+JBOD_NUM_BLOCKS_PER_DISK	jbod.h	9;"	d
+JBOD_NUM_CMDS	jbod.h	/^  JBOD_NUM_CMDS,$/;"	e	enum:__anon1
+JBOD_NUM_DISKS	jbod.h	6;"	d
+JBOD_NUM_ERRNOS	jbod.h	/^  JBOD_NUM_ERRNOS,$/;"	e	enum:__anon2
+JBOD_READ_BLOCK	jbod.h	/^  JBOD_READ_BLOCK,$/;"	e	enum:__anon1
+JBOD_REVOKE_WRITE_PERMISSION	jbod.h	/^  JBOD_REVOKE_WRITE_PERMISSION,$/;"	e	enum:__anon1
+JBOD_SEEK_TO_BLOCK	jbod.h	/^  JBOD_SEEK_TO_BLOCK,$/;"	e	enum:__anon1
+JBOD_SEEK_TO_DISK	jbod.h	/^  JBOD_SEEK_TO_DISK,$/;"	e	enum:__anon1
+JBOD_SIGN_BLOCK	jbod.h	/^  JBOD_SIGN_BLOCK,$/;"	e	enum:__anon1
+JBOD_UNMOUNT	jbod.h	/^  JBOD_UNMOUNT,$/;"	e	enum:__anon1
+JBOD_UNMOUNTED	jbod.h	/^  JBOD_UNMOUNTED,$/;"	e	enum:__anon2
+JBOD_WRITE_BLOCK	jbod.h	/^  JBOD_WRITE_BLOCK,$/;"	e	enum:__anon1
+JBOD_WRITE_PERMISSION	jbod.h	/^  JBOD_WRITE_PERMISSION,$/;"	e	enum:__anon1
+JBOD_WRITE_PERMISSION_ALREADY_GRANTED	jbod.h	/^  JBOD_WRITE_PERMISSION_ALREADY_GRANTED,$/;"	e	enum:__anon2
+JBOD_WRITE_PERMISSION_REVOKED	jbod.h	/^  JBOD_WRITE_PERMISSION_REVOKED,$/;"	e	enum:__anon2
+LDFLAGS	Makefile	/^LDFLAGS=-L.$/;"	m
+LIBS	Makefile	/^LIBS=-lcrypto$/;"	m
+MAX_IO_SIZE	tester.h	15;"	d
+MDADM_H_	mdadm.h	2;"	d
+OBJS	Makefile	/^OBJS=tester.o util.o mdadm.o cache.o$/;"	m
+SIZE	tester.c	165;"	d	file:
+TEST3_SIZE	tester.c	330;"	d	file:
+TESTER_ARGUMENTS	tester.c	20;"	d	file:
+TEST_H_	tester.h	2;"	d
+USAGE	tester.c	21;"	d	file:
+UTIL_H_	util.h	2;"	d
+access_time	cache.h	/^  int access_time;$/;"	m	struct:__anon4
+block	cache.h	/^  uint8_t block[JBOD_BLOCK_SIZE];$/;"	m	struct:__anon4
+block	jbod.c	/^  uint8_t    *block;$/;"	m	struct:__anon3	file:
+block_address	jbod.c	/^static uint8_t *block_address(int disk_num, int block_num) {$/;"	f	file:
+block_num	cache.h	/^  int block_num;$/;"	m	struct:__anon4
+block_num	jbod.c	/^  int        block_num;$/;"	m	struct:__anon3	file:
+cache	cache.c	/^static cache_entry_t *cache = NULL;$/;"	v	file:
+cache_create	cache.c	/^int cache_create(int num_entries) {$/;"	f
+cache_destroy	cache.c	/^int cache_destroy(void) {$/;"	f
+cache_enabled	cache.c	/^bool cache_enabled(void) {$/;"	f
+cache_entry_t	cache.h	/^} cache_entry_t;$/;"	t	typeref:struct:__anon4
+cache_insert	cache.c	/^int cache_insert(int disk_num, int block_num, const uint8_t *buf) {$/;"	f
+cache_lookup	cache.c	/^int cache_lookup(int disk_num, int block_num, uint8_t *buf) {$/;"	f
+cache_print_hit_rate	cache.c	/^void cache_print_hit_rate(void) {$/;"	f
+cache_size	cache.c	/^static int cache_size = 0;$/;"	v	file:
+cache_update	cache.c	/^void cache_update(int disk_num, int block_num, const uint8_t *buf) {$/;"	f
+clock	cache.c	/^static int clock = 0;$/;"	v	file:
+cmd	jbod.c	/^  jbod_cmd_t cmd;$/;"	m	struct:__anon3	file:
+debug_log	util.c	/^void debug_log(const char *fmt, ...) {$/;"	f
+debug_log_enabled	util.c	/^static int debug_log_enabled = 0;$/;"	v	file:
+debug_log_fd	util.c	/^static int debug_log_fd = 2;  \/* by default write log to stderr *\/$/;"	v	file:
+decode_op	jbod.c	/^static int decode_op(jbod_op_t *dop, uint32_t op, uint8_t *block) {$/;"	f	file:
+disk_num	cache.h	/^  int disk_num;$/;"	m	struct:__anon4
+disk_num	jbod.c	/^  int        disk_num;$/;"	m	struct:__anon3	file:
+enable_debug_log	util.c	/^void enable_debug_log(void) {$/;"	f
+equals	tester.c	/^int equals(const char *s1, const char *s2) {$/;"	f
+get_rand	util.c	/^uint32_t get_rand(uint32_t min, uint32_t max) {$/;"	f
+is_mounted	mdadm.c	/^int is_mounted = 0;$/;"	v
+is_written	mdadm.c	/^int is_written = 0;$/;"	v
+jbod_array	jbod.c	/^static uint8_t jbod_array[JBOD_NUM_DISKS][JBOD_DISK_SIZE];$/;"	v	file:
+jbod_cmd_t	jbod.h	/^} jbod_cmd_t;$/;"	t	typeref:enum:__anon1
+jbod_cmd_text	jbod.c	/^static const char *jbod_cmd_text[] = {$/;"	v	file:
+jbod_cmd_to_text	jbod.c	/^static const char *jbod_cmd_to_text(jbod_cmd_t cmd) {$/;"	f	file:
+jbod_command_exec	mdadm.c	/^int jbod_command_exec(jbod_cmd_t cmd, uint8_t disk_id, uint8_t block_id,$/;"	f
+jbod_current_block	jbod.c	/^static int jbod_current_block;$/;"	v	file:
+jbod_current_disk	jbod.c	/^static int jbod_current_disk;$/;"	v	file:
+jbod_error	jbod.c	/^jbod_error_t jbod_error = JBOD_NO_ERROR;$/;"	v
+jbod_error_string	jbod.c	/^const char *jbod_error_string(int eno) {$/;"	f
+jbod_error_t	jbod.h	/^} jbod_error_t;$/;"	t	typeref:enum:__anon2
+jbod_error_text	jbod.c	/^static const char *jbod_error_text[] = {$/;"	v	file:
+jbod_fill_block_test_write_across_blocks	jbod.c	/^void jbod_fill_block_test_write_across_blocks(uint8_t *buf) {$/;"	f
+jbod_fill_block_test_write_across_disks	jbod.c	/^void jbod_fill_block_test_write_across_disks(uint8_t *buf) {$/;"	f
+jbod_fill_block_test_write_three_blocks	jbod.c	/^void jbod_fill_block_test_write_three_blocks(uint8_t *buf) {$/;"	f
+jbod_fill_block_test_write_within_block	jbod.c	/^void jbod_fill_block_test_write_within_block(uint8_t *buf) {$/;"	f
+jbod_initialize_drives_contents	jbod.c	/^void jbod_initialize_drives_contents(void) {$/;"	f
+jbod_mount	jbod.c	/^static int jbod_mount(void) {$/;"	f	file:
+jbod_mounted	jbod.c	/^static int jbod_mounted = 0;$/;"	v	file:
+jbod_op_t	jbod.c	/^} jbod_op_t;$/;"	t	typeref:struct:__anon3	file:
+jbod_operation	jbod.c	/^int jbod_operation(uint32_t op, uint8_t *block) {$/;"	f
+jbod_read_block	jbod.c	/^static int jbod_read_block(uint8_t *block) {$/;"	f	file:
+jbod_seek_to_block	jbod.c	/^static int jbod_seek_to_block(int block_num) {$/;"	f	file:
+jbod_seek_to_disk	jbod.c	/^static int jbod_seek_to_disk(int disk_num) {$/;"	f	file:
+jbod_sign_block	jbod.c	/^int jbod_sign_block(int disk_num, int block_num) {$/;"	f
+jbod_unmount	jbod.c	/^static int jbod_unmount(void) {$/;"	f	file:
+jbod_write_block	jbod.c	/^static int jbod_write_block(uint8_t *block) {$/;"	f	file:
+length	jbod.c	/^  uint32_t   length;$/;"	m	struct:__anon3	file:
+main	tester.c	/^int main(int argc, char *argv[])$/;"	f
+mdadm_mount	mdadm.c	/^int mdadm_mount(void) {$/;"	f
+mdadm_read	mdadm.c	/^int mdadm_read(uint32_t addr, uint32_t len, uint8_t *buf) {$/;"	f
+mdadm_revoke_write_permission	mdadm.c	/^int mdadm_revoke_write_permission(void){$/;"	f
+mdadm_unmount	mdadm.c	/^int mdadm_unmount(void) {$/;"	f
+mdadm_write	mdadm.c	/^int mdadm_write(uint32_t addr, uint32_t len, const uint8_t *buf) {$/;"	f
+mdadm_write_permission	mdadm.c	/^int mdadm_write_permission(void){$/;"	f
+num_hits	cache.c	/^static int num_hits = 0;$/;"	v	file:
+num_queries	cache.c	/^static int num_queries = 0;$/;"	v	file:
+run_workload	tester.c	/^int run_workload(char *workload, int cache_size) {$/;"	f
+set_debug_logfile	util.c	/^void set_debug_logfile(const char *filename) {$/;"	f
+sha1_sig	util.c	/^const char *sha1_sig(uint8_t *buf, uint32_t size) {$/;"	f
+stringify	tester.c	/^char *stringify(const uint8_t *buf, int length) {$/;"	f
+test_cache_create_destroy	tester.c	/^int test_cache_create_destroy() {$/;"	f
+test_cache_insert_lookup	tester.c	/^int test_cache_insert_lookup() {$/;"	f
+test_cache_invalid_parameters	tester.c	/^int test_cache_invalid_parameters() {$/;"	f
+test_cache_lfu_insert	tester.c	/^int test_cache_lfu_insert() {$/;"	f
+test_cache_lfu_lookup	tester.c	/^int test_cache_lfu_lookup() {$/;"	f
+test_cache_update	tester.c	/^int test_cache_update() {$/;"	f
+test_mount_unmount	tester.c	/^int test_mount_unmount() {$/;"	f
+test_read_across_blocks	tester.c	/^int test_read_across_blocks() {$/;"	f
+test_read_across_disks	tester.c	/^int test_read_across_disks() {$/;"	f
+test_read_before_mount	tester.c	/^int test_read_before_mount() {$/;"	f
+test_read_invalid_parameters	tester.c	/^int test_read_invalid_parameters() {$/;"	f
+test_read_three_blocks	tester.c	/^int test_read_three_blocks() {$/;"	f
+test_read_within_block	tester.c	/^int test_read_within_block() {$/;"	f
+test_write_across_blocks	tester.c	/^int test_write_across_blocks() {$/;"	f
+test_write_across_disks	tester.c	/^int test_write_across_disks() {$/;"	f
+test_write_before_mount	tester.c	/^int test_write_before_mount() {$/;"	f
+test_write_before_permission	tester.c	/^int test_write_before_permission(){$/;"	f
+test_write_invalid_parameters	tester.c	/^int test_write_invalid_parameters() {$/;"	f
+test_write_three_blocks	tester.c	/^int test_write_three_blocks() {$/;"	f
+test_write_within_block	tester.c	/^int test_write_within_block() {$/;"	f
+valid	cache.h	/^  bool valid;$/;"	m	struct:__anon4
