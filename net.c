@@ -21,11 +21,11 @@ static bool nread(int fd, int len, uint8_t *buf) {
   int i = 0;
   int value = 0;
   while (i < len){
-    value = read(fd,&buf[i],len-i);
-    if (value <= 0) {
+    value = read(fd,&buf[i],len-i);     //checking the amount read
+    if (value <= 0) {                   //if fail to read return false
       return false;
     }
-    i += value;
+    i += value;                         //increment by amount read
   }
   return true;
 }
@@ -37,11 +37,11 @@ static bool nwrite(int fd, int len, uint8_t *buf) {
   int i = 0;
   int value = 0;
   while (i < len){
-    value = write(fd,&buf[i],len-i);
-    if (value <= 0) {
+    value = write(fd,&buf[i],len-i);    //checking the amount written
+    if (value <= 0) {                   //if fail to write return false
       return false;
     }
-    i += value;
+    i += value;                         //increment by amount written
   }
   return true;
 }
@@ -61,21 +61,21 @@ and then use the length field in the header to determine whether it is needed to
 a block of data from the server. You may use the above nread function here.  
 */
 static bool recv_packet(int sd, uint32_t *op, uint8_t *ret, uint8_t *block) {
-  uint8_t header[HEADER_LEN];
-  int offset = 0;
-  if (nread(sd,HEADER_LEN,header) == false) {
+  uint8_t header[HEADER_LEN];                           //create header with 5 byte in size
+  int offset = 0;                                       //calculate offset
+  if (nread(sd,HEADER_LEN,header) == false) {           //reading the 5 bytes
     return false;
   }
 
-  memcpy(op, header+offset, sizeof(*op));
-  offset += sizeof(*op);
-  *op = ntohl(*op);
+  memcpy(op, header+offset, sizeof(*op));               //copying header+offset into op with size of op
+  offset += sizeof(*op);                                //increasing offset by size of op
+  *op = ntohl(*op);                                     //network to host op
 
-  memcpy(ret, header+offset, sizeof(*ret));
-  offset += sizeof(*ret);
+  memcpy(ret, header+offset, sizeof(*ret));             //copying header+offset into ret with size of ret
+  offset += sizeof(*ret);                               //increasing offset by size of ret
 
-  if (*ret & 2) {
-    if (nread(sd,JBOD_BLOCK_SIZE,block) == false) {
+  if (*ret & 2) {                                       //check if a block needs to be read
+    if (nread(sd,JBOD_BLOCK_SIZE,block) == false) {     //read block if block exist
       return false;
     } 
   }
@@ -96,36 +96,34 @@ The above information (when applicable) has to be wrapped into a jbod request pa
 You may call the above nwrite function to do the actual sending.  
 */
 static bool send_packet(int sd, uint32_t op, uint8_t *block) {
-  uint8_t buffer[HEADER_LEN + JBOD_BLOCK_SIZE];
-  int offset = 0;
-  uint32_t newopcode;
-  uint8_t infocode;
+  uint8_t buffer[HEADER_LEN + JBOD_BLOCK_SIZE];              //create buffer with 261 byte in size
+  int offset = 0;                                            //calculate offset
+  uint32_t newopcode;                                        //location to store op code from server
+  uint8_t infocode;                                          //create a blank infocode
 
-  newopcode = htonl(op);
+  newopcode = htonl(op);                                     //store op code from server
 
-  memcpy(buffer+offset, &newopcode, sizeof(newopcode));
-  offset += sizeof(newopcode);
+  memcpy(buffer+offset, &newopcode, sizeof(newopcode));      //copying op code from server into buffer with size of op code
+  offset += sizeof(newopcode);                               //increasing offset by size of op code
 
-  if ((newopcode >> 12&0x3f) == JBOD_WRITE_BLOCK) {
-    buffer[offset] = 2;
-    //infocode = 2;
-    //memcpy(buffer+offset, &infocode, sizeof(infocode));
-    //offset += sizeof(infocode);
+  if ((op >> 12&0x3f) == JBOD_WRITE_BLOCK) {                 //check for write block command
+    infocode = 2;                                            //if a block need to be written, set second to last bit to 1
+    memcpy(buffer+offset, &infocode, sizeof(infocode));      //copying infocode to buffer
+    offset += sizeof(infocode);                              //increasing offset by size of infocode
 
-    memcpy(buffer+HEADER_LEN, block, JBOD_BLOCK_SIZE);
-    offset += JBOD_BLOCK_SIZE;
+    memcpy(buffer+HEADER_LEN, block, JBOD_BLOCK_SIZE);       //copying block into the buffer
+    offset += JBOD_BLOCK_SIZE;                               //increasing offset by size of block
 
-     if (nwrite(sd,HEADER_LEN + JBOD_BLOCK_SIZE, buffer) == false) {
+    if (nwrite(sd,HEADER_LEN + JBOD_BLOCK_SIZE, buffer) == false) {   //write buffer
        return false;
      }
      
   } else {
-    buffer[offset] = 0;
-    //infocode = 0;
-    //memcpy(buffer+offset, &infocode, sizeof(infocode));
-    //offset += sizeof(infocode);
+    infocode = 0;                                            //if no block need to be written, set second to last bit to 0
+    memcpy(buffer+offset, &infocode, sizeof(infocode));      //copying infocode to buffer
+    offset += sizeof(infocode);                              //increasing offset by size of infocode
 
-    if (nwrite(sd,HEADER_LEN, buffer) == false) {
+    if (nwrite(sd,HEADER_LEN, buffer) == false) {            //write buffer
        return false;
      }
   }
@@ -141,20 +139,20 @@ static bool send_packet(int sd, uint32_t op, uint8_t *block) {
  * you will not call it in mdadm.c
 */
 bool jbod_connect(const char *ip, uint16_t port) {
-  struct sockaddr_in serveraddr;
+  struct sockaddr_in serveraddr;                         //create socket structure
 
-  cli_sd = socket(AF_INET, SOCK_STREAM, 0);
-  if (cli_sd == -1) {
+  cli_sd = socket(AF_INET, SOCK_STREAM, 0);              //establish a socket
+  if (cli_sd == -1) {                                    //check if socket is created
     return false;
   }
 
-  serveraddr.sin_family = AF_INET;
-  serveraddr.sin_port = htons(port);
-  if(inet_aton(ip, &serveraddr.sin_addr) == 0) {
+  serveraddr.sin_family = AF_INET;                       //set network
+  serveraddr.sin_port = htons(port);                     //set port
+  if(inet_aton(ip, &serveraddr.sin_addr) == 0) {         //establish network
     return false;
   }
 
-  if (connect(cli_sd, (const struct sockaddr *)&serveraddr, sizeof(serveraddr)) != 0) {
+  if (connect(cli_sd, (const struct sockaddr *)&serveraddr, sizeof(serveraddr)) != 0) {  //connect to server
     return false;
   }
 
@@ -165,8 +163,8 @@ bool jbod_connect(const char *ip, uint16_t port) {
 
 /* disconnects from the server and resets cli_sd */
 void jbod_disconnect(void) {
-  close(cli_sd);
-  cli_sd = -1;
+  close(cli_sd);                                        //close socket
+  cli_sd = -1;                                          //set socket to -1
 }
 
 
@@ -178,30 +176,24 @@ The meaning of each parameter is the same as in the original jbod_operation func
 return: 0 means success, -1 means failure.
 */
 int jbod_client_operation(uint32_t op, uint8_t *block) {
-  uint8_t infocode;
-  uint32_t holderop = op;
+  uint8_t infocode;                                     //create blank infocode
   
-  if ( cli_sd == -1){
+  if (cli_sd == -1){                                    //check connection
+    return -1;
+  }
+  
+  if (send_packet(cli_sd,op,block) == false) {          //check send packet
     return -1;
   }
 
-  if (send_packet(cli_sd,op,block) == false) {
-    return -1;
-  }
 
-
-  if (recv_packet(cli_sd,&op,&infocode,block) == false) {
+  if (recv_packet(cli_sd,&op,&infocode,block) == false) {  //check recieve packet
       return -1;
   }
   
-  if (infocode % 2 != 0) {
+  if (infocode % 2 != 0) {                              //check updated infocode
     return -1;
   }
-  
-  if (op != holderop) {
-    return -1;
-  }
-
 
   return 0;
 }

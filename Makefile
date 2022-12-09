@@ -1,4 +1,4 @@
-CC=gcc
+CC=gcc-9
 CFLAGS=-c -Wall -I. -fpic -g -fbounds-check
 LDFLAGS=-L.
 LIBS=-lcrypto

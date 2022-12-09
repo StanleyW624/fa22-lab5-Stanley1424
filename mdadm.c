@@ -31,7 +31,7 @@ uint32_t newop (uint32_t block, uint32_t disk, uint32_t cmd) {
 
 int mdadm_mount(void) {
   if (is_mounted == 0) {                                                //check if device is mounted
-    if (jbod_operation(newop(0,0,JBOD_MOUNT), NULL) == JBOD_NO_ERROR){  //check if mounting will result to any error  
+    if (jbod_client_operation(newop(0,0,JBOD_MOUNT), NULL) == JBOD_NO_ERROR){  //check if mounting will result to any error  
       is_mounted = 1;                                                   //if successfully mounted, set is_mounted = 1 
       return 1; 
     }else {
@@ -44,7 +44,7 @@ int mdadm_mount(void) {
 
 int mdadm_unmount(void) {
    if (is_mounted == 1) {                                                  //check if device is mounted
-    if (jbod_operation(newop(0,0,JBOD_UNMOUNT), NULL) == JBOD_NO_ERROR){ //check if unmounting will result to any error
+    if (jbod_client_operation(newop(0,0,JBOD_UNMOUNT), NULL) == JBOD_NO_ERROR){ //check if unmounting will result to any error
       is_mounted = 0;                                                    //if successfully unmounted, set is_mounted = 0
       return 1;
     }else {
@@ -57,7 +57,7 @@ int mdadm_unmount(void) {
 
 int mdadm_write_permission(void){
   if (is_mounted == 1) {                                                 //check if devices is mounted
-    if (jbod_operation(newop(0,0,JBOD_WRITE_PERMISSION), NULL) == JBOD_NO_ERROR){ //check for any writing permission error  
+    if (jbod_client_operation(newop(0,0,JBOD_WRITE_PERMISSION), NULL) == JBOD_NO_ERROR){ //check for any writing permission error  
       is_written = 1;                                                    //if no writing permission error, set write permission to 1
       return 0;                                                          
     }else {
@@ -71,7 +71,7 @@ int mdadm_write_permission(void){
 
 int mdadm_revoke_write_permission(void){
   if(is_mounted == 1) {                                                 //check if devices is mounted
-    if (jbod_operation(newop(0,0,JBOD_REVOKE_WRITE_PERMISSION), NULL) == JBOD_NO_ERROR){ //check for any revoke writing permission error
+    if (jbod_client_operation(newop(0,0,JBOD_REVOKE_WRITE_PERMISSION), NULL) == JBOD_NO_ERROR){ //check for any revoke writing permission error
       is_written = 0;                                                   //if no error occur, set write permission to 0
       return 0;
     }else {
@@ -121,14 +121,14 @@ int mdadm_read(uint32_t addr, uint32_t len, uint8_t *buf) {
     
     offset = current_addr % 256;                                        //find offset of the current block
 
-    err = jbod_operation(newop(0,diskid, JBOD_SEEK_TO_DISK), NULL);     //seek to current disk  
+    err = jbod_client_operation(newop(0,diskid, JBOD_SEEK_TO_DISK), NULL);     //seek to current disk  
     assert (err == JBOD_NO_ERROR);                                      //check for any error
 
-    err = jbod_operation(newop(blockid,0, JBOD_SEEK_TO_BLOCK), NULL);   //seek to current block   
+    err = jbod_client_operation(newop(blockid,0, JBOD_SEEK_TO_BLOCK), NULL);   //seek to current block   
     assert (err == JBOD_NO_ERROR);                                      //check for any error
 
     if (cache_lookup(diskid,blockid,tempbuf) == -1) {                   //check if item exists in cache
-      err = jbod_operation(newop(0,0,JBOD_READ_BLOCK), tempbuf);        //if not read current block  
+      err = jbod_client_operation(newop(0,0,JBOD_READ_BLOCK), tempbuf);        //if not read current block  
       assert (err == JBOD_NO_ERROR);                                    //check for any error
       cache_insert(diskid,blockid,tempbuf);                             //insert into cache if does not exist
     }                                                                   //if cache already exists, cache_lookup copies required item is into tempbuf, skipping JBOD
@@ -200,19 +200,19 @@ int mdadm_write(uint32_t addr, uint32_t len, const uint8_t *buf) {
     
     offset = current_addr % 256;                                        //find offset of the current block
 
-    err = jbod_operation(newop(0,diskid, JBOD_SEEK_TO_DISK), NULL);     //seek to the current disk 
+    err = jbod_client_operation(newop(0,diskid, JBOD_SEEK_TO_DISK), NULL);     //seek to the current disk 
     assert (err == JBOD_NO_ERROR);
 
-    err = jbod_operation(newop(blockid,0, JBOD_SEEK_TO_BLOCK), NULL);   //seek to the current block  
+    err = jbod_client_operation(newop(blockid,0, JBOD_SEEK_TO_BLOCK), NULL);   //seek to the current block  
     assert (err == JBOD_NO_ERROR);
 
     if (cache_lookup(diskid,blockid,tempbuf) == -1) {                   //determine if cache exists
       cache_insert(diskid,blockid,buf);                                 //if cache does not exist, insert cache
-      err = jbod_operation(newop(0,0,JBOD_READ_BLOCK), tempbuf);        //read the current block into the tempbuf   
+      err = jbod_client_operation(newop(0,0,JBOD_READ_BLOCK), tempbuf);        //read the current block into the tempbuf   
       assert (err == JBOD_NO_ERROR);                                    //check for any error
     } else {
       cache_update(diskid,blockid,buf);                                 //if cache exist, update cache
-      err = jbod_operation(newop(0,0,JBOD_READ_BLOCK), tempbuf);        //read the current block into the tempbuf  
+      err = jbod_client_operation(newop(0,0,JBOD_READ_BLOCK), tempbuf);        //read the current block into the tempbuf  
       assert (err == JBOD_NO_ERROR);                                    //check for any error
     }
     
@@ -238,13 +238,13 @@ int mdadm_write(uint32_t addr, uint32_t len, const uint8_t *buf) {
       }
     }
 
-    err = jbod_operation(newop(0,diskid, JBOD_SEEK_TO_DISK), NULL);     //seek to current disk   
+    err = jbod_client_operation(newop(0,diskid, JBOD_SEEK_TO_DISK), NULL);     //seek to current disk   
     assert (err == JBOD_NO_ERROR);
 
-    err = jbod_operation(newop(blockid,0, JBOD_SEEK_TO_BLOCK), NULL);   //seek to current block 
+    err = jbod_client_operation(newop(blockid,0, JBOD_SEEK_TO_BLOCK), NULL);   //seek to current block 
     assert (err == JBOD_NO_ERROR);
 
-    err = jbod_operation(newop(0,0,JBOD_WRITE_BLOCK), tempbuf);         //overwrite value in the tempbuf  
+    err = jbod_client_operation(newop(0,0,JBOD_WRITE_BLOCK), tempbuf);         //overwrite value in the tempbuf  
     assert (err == JBOD_NO_ERROR);
 
     current_addr += read_bytes;                                         //update current address locaation
